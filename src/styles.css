@@ -1,0 +1,27 @@
+body {
+  font-family: sans-serif;
+}
+
+#desired-suffix {
+  width: 600px;
+  height: 75px;
+  color: #222;
+  font-family: monospace;
+}
+
+#start-button {
+  margin: 5px 0 0 0;
+  width: 100px;
+  height: 30px;
+  background-color: #08c;
+  border: 0;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.value {
+  font-family: monospace;
+}
