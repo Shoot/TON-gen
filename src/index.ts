@@ -40,22 +40,57 @@ function main() {
         values: [
           "Type1 (EQ): "+EQ,
           "Type2 (UQ): "+UQ
-        ]
+        ],
+        words: words
         });
       }
       }
   }
 
-  function renderOutput(params: { label: string; values: string[] }) {
+  function renderOutput(params: { label: string; values: string[]; words: string[] }) {
+    const $output = document.getElementById('output'); // Assuming there's an element with the ID 'output'
+
+    // Create and style the popup notification element
+    const $popup = document.createElement("div");
+    $popup.setAttribute("id", "popup");
+    $popup.style.position = "fixed";
+    $popup.style.bottom = "20px";
+    $popup.style.right = "20px";
+    $popup.style.padding = "10px 20px";
+    $popup.style.backgroundColor = "rgba(0,0,0,0.7)";
+    $popup.style.color = "white";
+    $popup.style.borderRadius = "5px";
+    $popup.style.opacity = "0";
+    $popup.style.transition = "opacity 0.3s";
+    document.body.appendChild($popup);
+
+    function showPopup(message: string) {
+      $popup.innerHTML = message;
+      $popup.style.opacity = "1";
+      setTimeout(() => {
+        $popup.style.opacity = "0";
+      }, 2000); // Hide after 2 seconds
+    }
+
     if (params.label) {
       const $label = document.createElement("p");
       $label.innerHTML = `<strong>${params.label}</strong>`;
       $output?.appendChild($label);
     }
+
     for (const value of params.values) {
       const $value = document.createElement("p");
       $value.setAttribute("class", "value");
       $value.innerHTML = value;
+      $value.addEventListener('click', () => {
+        const wordsString = params.words.join(' ');
+        navigator.clipboard.writeText(wordsString).then(() => {
+          console.log('Copied to clipboard:', wordsString);
+          showPopup('Copied to clipboard!');
+        }).catch(err => {
+          console.error('Failed to copy:', err);
+        });
+      });
       $output?.appendChild($value);
     }
   }
